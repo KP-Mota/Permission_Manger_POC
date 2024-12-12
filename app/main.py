@@ -4,13 +4,15 @@ import requests
 from pydantic import BaseModel
 from app.evaluate import RequestContext, evaluate_policy
 
-
 app = FastAPI()
 
 @app.post("/evaluate")
 def evaluate(context: RequestContext):
+    """
+    Evaluate the request using OPA.
+    """
     return evaluate_policy(context)
-app = FastAPI()
+
 
 def load_policies():
     with open("app/policies.rego", "r") as file:
