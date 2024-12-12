@@ -1,7 +1,15 @@
 from fastapi import FastAPI
 from app.attributes import ATTRIBUTES
 import requests
+from pydantic import BaseModel
+from app.evaluate import RequestContext, evaluate_policy
 
+
+app = FastAPI()
+
+@app.post("/evaluate")
+def evaluate(context: RequestContext):
+    return evaluate_policy(context)
 app = FastAPI()
 
 def load_policies():
@@ -22,7 +30,6 @@ load_policies()
 @app.get("/")
 def read_root():
     return {"message": "Access Control POC is running"}
-#####
 
 @app.get("/attributes")
 def get_attributes():
